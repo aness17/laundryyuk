@@ -90,7 +90,7 @@
 							<li><a href="#">Drop Down 5</a></li>
 						</ul>
 					</li>
-					<li><a href="<?= site_url('login') ?>">Login</a></li>
+					<li><a href="<?= base_url('index.php/auth/login') ?>">Login</a></li>
 
 				</ul>
 			</nav><!-- .nav-menu -->

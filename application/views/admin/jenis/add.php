@@ -19,7 +19,11 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label class="form-control-label" for="input-username">Satuan Jenis Laundry</label>
-                                <input type="text" id="input-username" class="form-control" name="nama" placeholder="Satuan Layanan">
+                                <input type="text" id="input-username" class="form-control" name="satuan" placeholder="Satuan Layanan">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-control-label" for="input-username">Estimasi Waktu</label>
+                                <input type="number" id="input-username" class="form-control" name="estimasi" placeholder="Estimasi Waktu">
                             </div>
                             <div class="row">
                                 <div class="col-lg">

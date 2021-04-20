@@ -27,4 +27,37 @@ class Auth extends CI_Controller
     {
         $this->load->view('auth/login');
     }
+    public function login_act()
+    {
+        $this->load->view('user/login');
+    }
+    public function pesan()
+    {
+        $this->load->view('user/pesan');
+    }
+
+    public function form_pesan()
+    {
+        $this->load->view('user/form_pesan');
+    }
+
+    public function logout()
+    {
+        $this->load->view('user/logout');
+    }
+
+    public function register()
+    {
+        $this->load->view('auth/register');
+    }
+
+    public function google(){
+        $this->load->view('auth/google_login');
+    }
+    public function dashboard()
+    {
+        $this->load->view('user/dashboard');
+    }
+
+
 }

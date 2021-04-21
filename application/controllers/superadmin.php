@@ -26,7 +26,6 @@ class Superadmin extends CI_Controller
         $this->load->model('User_model');
         $this->load->model('Jenis_model');
         $this->load->model('Layanan_model');
-
     }
     public function index()
     {
@@ -87,28 +86,6 @@ class Superadmin extends CI_Controller
         redirect('index.php/auth/login');
     }
 
-    public function flasher($class, $message)
-    {
-        return
-            '<div class="alert alert-' . $class . ' alert-dismissible fade show" role="alert">
-                ' . $message . '
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>';
-    }
-
-    public function breadcomb()
-    {
-        $crumbs = explode("/", $_SERVER["REQUEST_URI"]);
-        $roti = [];
-
-        for ($i = 0; $i < count($crumbs); $i++) {
-            $roti[$i] = ucfirst(str_replace(array(".php", "_"), array("", " "), $crumbs[$i]) . ' ');
-        }
-
-        return array_slice($roti, 3);
-    }
     public function addadmin()
     {
         $this->load->view('templates/admin/header');
@@ -194,13 +171,14 @@ class Superadmin extends CI_Controller
         $this->load->view('templates/admin/header');
         $this->load->view('templates/admin/sidebar');
         $this->load->view('templates/admin/navbar');
-        $this->load->view('admin/layanan/addlayanan');
+        $this->load->view('admin/layanan/add');
         $this->load->view('templates/admin/footer');
     }
     public function add2()
     {
         $db = [
             'nama_layanan' => $this->input->post('nama'),
+            'estimasi_waktu_layanan' => $this->input->post('estimasi'),
             'harga_layanan' => $this->input->post('harga')
         ];
 
@@ -218,7 +196,7 @@ class Superadmin extends CI_Controller
         $this->load->view('templates/admin/header');
         $this->load->view('templates/admin/sidebar');
         $this->load->view('templates/admin/navbar');
-        $this->load->view('admin/layanan/addjenis');
+        $this->load->view('admin/jenis/add');
         $this->load->view('templates/admin/footer');
     }
     public function add3()
@@ -226,6 +204,7 @@ class Superadmin extends CI_Controller
         $db = [
             'nama_jenis' => $this->input->post('nama'),
             'satuan_jenis' => $this->input->post('satuan'),
+            'estimasi_waktu_jenis' => $this->input->post('estimasi'),
             'harga_jenis' => $this->input->post('harga')
         ];
 
@@ -247,7 +226,7 @@ class Superadmin extends CI_Controller
         } else {
             $this->session->set_flashdata('message', $this->flasher('danger', 'Id Is null'));
         }
-        redirect('superadmin/datalayanan');
+        redirect('index.php/superadmin/datalayanan');
     }
     public function deletelayanan($id)
     {
@@ -260,6 +239,98 @@ class Superadmin extends CI_Controller
         } else {
             $this->session->set_flashdata('message', $this->flasher('danger', 'Id Is null'));
         }
-        redirect('superadmin/datalayanan');
+        redirect('index.php/superadmin/datalayanan');
+    }
+
+    public function editjenis($id = "")
+    {
+        $this->form_validation->set_rules('name', 'Username', 'required');
+        $this->form_validation->set_rules('satuan', 'Satuan', 'required');
+        $this->form_validation->set_rules('estimasi', 'Estimasi', 'required');
+        $this->form_validation->set_rules('harga', 'Harga', 'required');
+
+        $jenis = $this->Jenis_model->getUserById($id);
+        $data = [
+            'jenis' => $jenis
+        ];
+
+        if ($this->form_validation->run()) {
+            $db = [
+                'id_jenis' => $id,
+                'nama_jenis' => $this->input->post('nama'),
+                'satuan_jenis' => $this->input->post('satuan'),
+                'estimasi_waktu_jenis' => $this->input->post('estimasi'),
+                'harga_jenis' => $this->input->post('harga')
+            ];
+
+            if ($this->Jenis_model->update($db) > 0) {
+                $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
+            } else {
+                $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
+            }
+            redirect('index.php/admin/datalayanan');
+        } else {
+            $this->load->view('templates/admin/header');
+            $this->load->view('templates/admin/sidebar');
+            $this->load->view('templates/admin/navbar');
+            $this->load->view('admin/jenis/edit', $data);
+            $this->load->view('templates/admin/footer');
+        }
+    }
+    public function editlayanan($id)
+    {
+        $this->form_validation->set_rules('name', 'Username', 'required');
+        $this->form_validation->set_rules('estimasi', 'Estimasi', 'required');
+        $this->form_validation->set_rules('harga', 'Harga', 'required');
+        
+        $layanan = $this->Layanan_model->getUserById($id);
+        $data = [
+            'layanan' => $layanan
+        ];
+
+        if ($id == " ") {
+            $db = [
+                'id_layanan' => $id,
+                'nama_layanan' => $this->input->post('nama'),
+                'estimasi_waktu_layanan' => $this->input->post('estimasi'),
+                'harga_layanan' => $this->input->post('harga')
+            ];
+
+            if ($this->Layanan_model->update($db) > 0) {
+                $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
+            } else {
+                $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
+            }
+            redirect('index.php/admin/datalayanan');
+        } else {
+            $this->load->view('templates/admin/header');
+            $this->load->view('templates/admin/sidebar');
+            $this->load->view('templates/admin/navbar');
+            $this->load->view('admin/layanan/edit', $data);
+            $this->load->view('templates/admin/footer');
+        }
+    }
+    
+    public function flasher($class, $message)
+    {
+        return
+            '<div class="alert alert-' . $class . ' alert-dismissible fade show" role="alert">
+                ' . $message . '
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>';
+    }
+
+    public function breadcomb()
+    {
+        $crumbs = explode("/", $_SERVER["REQUEST_URI"]);
+        $roti = [];
+
+        for ($i = 0; $i < count($crumbs); $i++) {
+            $roti[$i] = ucfirst(str_replace(array(".php", "_"), array("", " "), $crumbs[$i]) . ' ');
+        }
+
+        return array_slice($roti, 3);
     }
 }

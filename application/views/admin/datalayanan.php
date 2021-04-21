@@ -18,6 +18,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>Estimasi Waktu</th>
                             <th>Harga</th>
                             <th>Aksi</th>
                         </tr>
@@ -30,11 +31,12 @@
                             <tr>
                                 <td><?= $no; ?></td>
                                 <td><?= $users['nama_layanan'] ?></td>
+                                <td><?= $users['estimasi_waktu_layanan'] ?> Hari</td>
                                 <td><?= $users['harga_layanan'] ?></td>
                                 <td class="text-center">
-                                    <a href="<?= base_url('index.php/superadmin/editjenis/' . $users['id_layanan']) ?>" type="button" class="fas fa-edit" style="color:limegreen">
+                                    <a href="<?= base_url('index.php/superadmin/editlayanan/' . $users['id_layanan']) ?>" type="button" class="fas fa-edit" style="color:limegreen">
                                     </a>
-                                    <a href="<?= base_url('index.php/superadmin/deletejenis/' . $users['id_layanan']) ?>" type="button" class="fas fa-trash" style="color:red" onclick="return confirm('Are you sure to delete this row ?')">
+                                    <a href="<?= base_url('index.php/superadmin/deletelayanan/' . $users['id_layanan']) ?>" type="button" class="fas fa-trash" style="color:red" onclick="return confirm('Are you sure to delete this row ?')">
                                     </a>
                                 </td>
                             </tr>
@@ -62,6 +64,7 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>Satuan</th>
+                            <th>Estimasi Waktu</th>
                             <th>Harga</th>
                             <th>Aksi</th>
                         </tr>
@@ -75,9 +78,10 @@
                                 <td><?= $no; ?></td>
                                 <td><?= $users['nama_jenis'] ?></td>                                
                                 <td><?= $users['satuan_jenis'] ?></td>
+                                <td><?= $users['estimasi_waktu_jenis'] ?> Hari</td>
                                 <td><?= $users['harga_jenis'] ?></td>
                                 <td class="text-center">
-                                    <a href="<?= base_url('index.php/superadmin/jenis/editjenis/' . $users['id_jenis']) ?>" type="button" class="fas fa-edit" style="color:limegreen">
+                                    <a href="<?= base_url('index.php/superadmin/editjenis/' . $users['id_jenis']) ?>" type="button" class="fas fa-edit" style="color:limegreen">
                                     </a>
                                     <a href="<?= base_url('index.php/superadmin/deletejenis/' . $users['id_jenis']) ?>" type="button" class="fas fa-trash" style="color:red" onclick="return confirm('Are you sure to delete this row ?')">
                                     </a>
